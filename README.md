@@ -10,12 +10,12 @@ SISKA (Sistem Presensi Karyawan) is a modern employee attendance system that int
 - **Login Panel**: https://siskarfid.cloud/signin.php/
 - **Test Credentials**:
 
-  - Admin Access:
-    UID: **🔒Not Access**
+  - Admin Access:<br>
+    UID: **🔒Not Access**<br>
     Password: **🔒Not Access**
 
-  - Employee Access:
-    UID: 1452091914
+  - Employee Access:<br>
+    UID: 1452091914<br>
     Password: khotimah
 
 ## 🚀 Key Features
@@ -77,7 +77,7 @@ This project is licensed under the MIT License
 
 ## 📞 Contact
 
-Developer: [Abdurrosyid Khulaifi] <be>
+Developer: [Abdurrosyid Khulaifi] <br>
 Email: [khulaifi52@gmail.com]
 
 ---
