@@ -78,7 +78,7 @@ This project is licensed under the MIT License
 ## 📞 Contact
 
 Developer: [Abdurrosyid Khulaifi]
-Email: [khulaifi52@gmai.com]
+Email: [khulaifi52@gmail.com]
 
 ---
 

@@ -1,0 +1,285 @@
+<?php
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+if (!isset($_SESSION['level']) || $_SESSION['level'] != 'admin') {
+    echo "<script>alert('Maaf, Halaman ini untuk Administrator!');document.location.href='signin.php'</script>";
+    exit();
+}
+?>
+
+<!-- Koneksi DB -->
+<?php
+include "koneksi.php";
+// membaca ID yang akan diedit
+$id = $_GET['id'];
+
+// membaca data karyawan berdasarkan ID
+$cari = mysqli_query($koneksi, "SELECT * FROM karyawan WHERE id='$id'");
+$hasil = mysqli_fetch_array($cari);
+
+
+
+// Jika tombol Submit di klik
+if (isset($_POST['btnSubmit'])) {
+    $nama = $_POST['nama'];
+    $job = $_POST['job'];
+    $gender = $_POST['gender'];
+    // Cek jika password tidak kosong
+    if (!empty($_POST['password'])) {
+        $password = md5($_POST['password']);
+        $simpan = mysqli_query($koneksi, "UPDATE karyawan SET nama='$nama', job='$job', gender='$gender', password='$password' WHERE id='$id'");
+    } else {
+        // Jika password kosong, update tanpa mengubah password
+        $simpan = mysqli_query($koneksi, "UPDATE karyawan SET nama='$nama', job='$job', gender='$gender' WHERE id='$id'");
+    }
+    if ($simpan) {
+        echo "<script>
+        alert('Data berhasil disimpan');
+        location.replace('dataadmin.php');
+        </script>";
+    } else {
+        echo "<script>
+        alert('Data gagal disimpan');
+        location.replace('edit_admin.php');
+        </script>";
+    }
+}
+?>
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <?php include 'navbar.php'; ?>
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.14.1/dist/sweetalert2.min.css" rel="stylesheet">
+    <title>Tambah Karyawan</title>
+</head>
+
+<body>
+
+    <!-- *******************
+        Preloader start
+    ********************-->
+    <div id="preloader">
+        <div class="waviy">
+            <span style="--i:1">L</span>
+            <span style="--i:2">o</span>
+            <span style="--i:3">a</span>
+            <span style="--i:4">d</span>
+            <span style="--i:5">i</span>
+            <span style="--i:6">n</span>
+            <span style="--i:7">g</span>
+            <span style="--i:8">.</span>
+            <span style="--i:9">.</span>
+            <span style="--i:10">.</span>
+        </div>
+    </div>
+    <!--*******************
+        Preloader end
+    ******************** -->
+
+    <div id="main-wrapper">
+        <!--**********************************
+            Nav header start
+        ***********************************-->
+        <div class="nav-header">
+            <a href="home_admin.php" class="brand-logo">
+                <svg fill="#000000" width="50px" height="50px" viewBox="0 0 24 24" id="barcode-scan" data-name="Line Color" xmlns="http://www.w3.org/2000/svg" class="icon line-color">
+                    <path id="secondary" d="M4,12H20M8,7V8m4-1V8M8,17V16m8-9V8m0,9V16m-4,1V16" style="fill: none; stroke: rgb(44, 169, 188); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></path>
+                    <path id="primary" d="M3,8V4A1,1,0,0,1,4,3H8" style="fill: none; stroke: rgb(0, 0, 0); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></path>
+                    <path id="primary-2" data-name="primary" d="M21,8V4a1,1,0,0,0-1-1H16" style="fill: none; stroke: rgb(0, 0, 0); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></path>
+                    <path id="primary-3" data-name="primary" d="M3,16v4a1,1,0,0,0,1,1H8" style="fill: none; stroke: rgb(0, 0, 0); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></path>
+                    <path id="primary-4" data-name="primary" d="M16,21h4a1,1,0,0,0,1-1V16" style="fill: none; stroke: rgb(0, 0, 0); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></path>
+                </svg>
+                <svg class="brand-title" width="124px" height="33px">
+                    <path class="svg-title-path" fill-rule="evenodd" fill="rgb(25, 59, 98)" d="M 58.4 28.32 L 67.04 28.32 L 67.04 18.04 L 73.36 28.32 L 83.88 28.32 L 74.04 13.48 L 82.8 0.32 L 73.72 0.32 L 67.04 11.08 L 67.04 0.32 L 58.4 0.32 L 58.4 28.32 Z M 12.96 8.92 L 19.96 5.92 C 18.44 2.44 14.68 0 10.8 0 C 4.725 0 1.281 4.036 0.947 8.072 A 7.845 7.845 0 0 0 0.92 8.72 A 7.97 7.97 0 0 0 1.285 11.181 C 2.415 14.688 5.939 16.065 8.537 16.963 A 116.14 116.14 0 0 1 9.8 17.4 A 23.917 23.917 0 0 0 9.806 17.403 C 11.204 17.922 12.48 18.282 12.48 19.36 C 12.48 20.28 11.64 20.96 10.56 20.96 A 3.428 3.428 0 0 1 9.709 20.858 C 8.753 20.613 8.177 19.977 7.981 19.432 A 1.342 1.342 0 0 1 7.92 19.2 L 0 21.12 A 9.641 9.641 0 0 0 5.885 27.732 A 12.47 12.47 0 0 0 10.64 28.64 A 12.061 12.061 0 0 0 15.703 27.596 A 8.457 8.457 0 0 0 20.8 19.68 A 8.572 8.572 0 0 0 20.501 17.361 C 19.55 13.96 16.512 12.628 14.125 11.733 A 5113.316 5113.316 0 0 0 13.12 11.36 C 12.169 11.033 10.224 10.544 9.553 9.673 A 1.025 1.025 0 0 1 9.32 9.04 A 1.306 1.306 0 0 1 10.227 7.788 A 1.926 1.926 0 0 1 10.88 7.68 C 11.84 7.68 12.64 8.16 12.96 8.92 Z M 47.36 8.92 L 54.36 5.92 C 52.84 2.44 49.08 0 45.2 0 C 39.125 0 35.681 4.036 35.347 8.072 A 7.845 7.845 0 0 0 35.32 8.72 A 7.97 7.97 0 0 0 35.685 11.181 C 36.815 14.688 40.339 16.065 42.937 16.963 A 116.14 116.14 0 0 1 44.2 17.4 A 23.917 23.917 0 0 0 44.206 17.403 C 45.604 17.922 46.88 18.282 46.88 19.36 C 46.88 20.28 46.04 20.96 44.96 20.96 A 3.428 3.428 0 0 1 44.109 20.858 C 43.153 20.613 42.577 19.977 42.381 19.432 A 1.342 1.342 0 0 1 42.32 19.2 L 34.4 21.12 A 9.641 9.641 0 0 0 40.285 27.732 A 12.47 12.47 0 0 0 45.04 28.64 A 12.061 12.061 0 0 0 50.103 27.596 A 8.457 8.457 0 0 0 55.2 19.68 A 8.572 8.572 0 0 0 54.901 17.361 C 53.95 13.96 50.912 12.628 48.525 11.733 A 5113.316 5113.316 0 0 0 47.52 11.36 C 46.569 11.033 44.624 10.544 43.953 9.673 A 1.025 1.025 0 0 1 43.72 9.04 A 1.306 1.306 0 0 1 44.627 7.788 A 1.926 1.926 0 0 1 45.28 7.68 C 46.24 7.68 47.04 8.16 47.36 8.92 Z M 84.28 28.32 L 93.32 28.32 L 95 23.24 L 104.44 23.24 L 106.08 28.32 L 115.16 28.32 L 104.4 0.32 L 95.04 0.32 L 84.28 28.32 Z M 23.76 28.32 L 31.44 28.32 L 31.44 10.08 L 23.76 10.08 L 23.76 28.32 Z M 23.6 4.28 C 23.6 6.52 25.4 8.32 27.6 8.32 C 29.8 8.32 31.6 6.52 31.6 4.28 C 31.6 2.08 29.8 0.28 27.6 0.28 C 25.4 0.28 23.6 2.08 23.6 4.28 Z M 97 17.16 L 99.72 8.84 L 102.44 17.16 L 97 17.16 Z" vector-effect="non-scaling-stroke" />
+                    </path>
+                </svg>
+            </a>
+            <div class="nav-control">
+                <div class="hamburger">
+                    <span class="line"></span><span class="line"></span><span class="line"></span>
+                </div>
+            </div>
+        </div>
+        <!--**********************************
+            Nav header end
+        ***********************************-->
+
+        <!--**********************************
+            Header start
+        ***********************************-->
+        <div class="header">
+            <div class="header-content">
+                <nav class="navbar navbar-expand">
+                    <div class="collapse navbar-collapse justify-content-between">
+                        <div class="header-left">
+                            <div class="dashboard_bar">
+                                Data Admin (Edit)
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <!--**********************************
+            Header end ti-comment-alt
+        ***********************************-->
+
+        <!--**********************************
+            Sidebar start
+        ***********************************-->
+        <?php
+        include 'menu.php'; ?>
+        <!--**********************************
+            Sidebar end
+        ***********************************-->
+
+        <!--**********************************
+            Content body start
+        ***********************************-->
+
+        <div class="content-body">
+            <div class="container-fluid">
+                <div class="row page-titles">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item active"><a href="javascript:void(0)">User Data</a></li>
+                        <li class="breadcrumb-item active"><a href="javascript:void(0)">Data Admin</a></li>
+                        <li class="breadcrumb-item"><a href="javascript:void(0)">Edit Data</a></li>
+                    </ol>
+                </div>
+                <!-- row -->
+                <div class="col-xl-12 col-xxl-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="basic-form">
+                                <form method="POST">
+                                    <div class="mb-3 row">
+                                        <label class="col-sm-3 col-form-label">ID Card</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" name="id_card" id="id_card" class="form-control" placeholder="Masukkan Nomor ID Card" value="<?php echo $hasil['id_card']; ?>" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3 row">
+                                        <label class="col-sm-3 col-form-label">Nama</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" name="nama" id="nama" class="form-control" placeholder="Masukkan Nama Lengkap" value="<?php echo $hasil['nama']; ?>">
+                                        </div>
+                                    </div>
+                                    <div class="mb-3 row">
+                                        <label class="col-sm-3 col-form-label">Password Baru</label>
+                                        <div class="col-sm-9">
+                                            <input type="password" name="password" id="password" class="form-control" placeholder="Masukkan Password Baru">
+                                            <input type="checkbox" class="form-check-input mt-2" id="show_pass_baru" onclick="togglePassword('password')">
+                                            <label class="form-check-label mt-2" for="show_pass_baru">Show Password</label>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3 row">
+                                        <label class="col-sm-3 col-form-label">Job</label>
+                                        <div class="col-sm-9">
+                                            <select name="job" id="job" class="form-control">
+                                                <option value="">-- Pilih Job --</option>
+                                                <option value="Karyawan" <?php if ($hasil['job'] == 'Karyawan') echo 'selected'; ?>>Karyawan</option>
+                                                <option value="Staff" <?php if ($hasil['job'] == 'Staff') echo 'selected'; ?>>Staff</option>
+                                                <option value="Administrator" <?php if ($hasil['job'] == 'Administrator') echo 'selected'; ?>>Administrator</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <fieldset class="mb-3">
+                                        <div class="row">
+                                            <label class="col-form-label col-sm-3 pt-0">Jenis Kelamin</label>
+                                            <div class="col-sm-9">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="gender" id="gender" value="Laki-Laki" <?php echo ($hasil['gender'] == 'Laki-Laki') ? 'checked' : ''; ?>>
+                                                    <label class="form-check-label">
+                                                        Laki-Laki
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="gender" id="gender" value="Perempuan" <?php echo ($hasil['gender'] == 'Perempuan') ? 'checked' : ''; ?>>
+                                                    <label class="form-check-label">
+                                                        Perempuan
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                    <div class="mb-3 row">
+                                        <div class="col-sm-10">
+                                            <button class="btn btn-rounded btn-primary sweet-succes" name="btnSubmit" id="btnSubmit">
+                                                <span class="btn-icon-start text-info" name="btnSubmit" id="btnSubmit">
+                                                    <i class="fas fa-caret-down color-primary fs-3"></i>
+                                                </span>Update</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--**********************************
+            Content body end
+        ***********************************-->
+
+        <!--**********************************
+            Footer start
+        ***********************************-->
+        <div class="footer">
+            <?php
+            include 'footer.php'; ?>
+        </div>
+        <!--********</div>**************************
+            Footer end
+        ***********************************-->
+
+
+
+
+    </div>
+    <!--**********************************
+        Main wrapper end
+    ***********************************-->
+
+
+    <!--**********************************
+        Scripts
+    ***********************************-->
+    <!-- Required vendors -->
+    <script src="vendor/global/global.min.js"></script>
+    <script src="vendor/chart.js/Chart.bundle.min.js"></script>
+    <script src="vendor/jquery-nice-select/js/jquery.nice-select.min.js"></script>
+    <!-- Sweet Alert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.14.1/dist/sweetalert2.all.min.js"></script>
+
+
+    <!-- Apex Chart -->
+    <script src="vendor/apexchart/apexchart.js"></script>
+    <script src="vendor/nouislider/nouislider.min.js"></script>
+    <script src="vendor/wnumb/wNumb.js"></script>
+
+    <!-- Dashboard 1 -->
+    <script src="js/dashboard/dashboard-1.js"></script>
+
+    <script src="js/custom.min.js"></script>
+    <script src="js/dlabnav-init.js"></script>
+    <script src="js/demo.js"></script>
+    <script src="js/styleSwitcher.js"></script>
+    <script>
+        function togglePassword(id) {
+            var x = document.getElementById(id);
+            if (x.type === "password") {
+                x.type = "text";
+            } else {
+                x.type = "password";
+            }
+        }
+    </script>
+
+</body>
+
+</html>
