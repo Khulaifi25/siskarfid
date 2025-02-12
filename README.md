@@ -82,6 +82,13 @@ Email: [khulaifi52@gmail.com]
 
 ---
 
-## Made with ❤️ for better attendance management
-
-<div id="copyright" align="center">&copy; 2024 - <?php echo date('Y'); ?> siskarfid.cloud - 4Saken Inc. - All Rights Reserved.</div>
+<div id="tag" align="center">Made with ❤️ for better attendance management</div>
+<div id="copyright" align="center">
+    &copy; 2024 - 2025 siskarfid.cloud - 4Saken Inc. - All Rights Reserved.
+</div>
+<script>
+(() => {
+    const copyrightElement = document.getElementById("copyright");
+    copyrightElement.innerHTML = "&copy; 2024 - "+new Date().getFullYear()+" siskarfid.cloud - All Rights Reserved.";
+})();
+</script>
