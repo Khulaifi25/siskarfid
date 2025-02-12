@@ -1,4 +1,4 @@
-# 🏢 SISKA - Sistem Presensi Karyawan RFID
+# SISKA - Sistem Presensi Karyawan RFID dan NodeMCU
 
 ## 📋 Overview
 
